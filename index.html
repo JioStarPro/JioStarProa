@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-28WVGCYRYT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-28WVGCYRYT');
+</script>
   <meta charset="UTF-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,9 +131,17 @@
       JioStar Pro streaming is 100% free. Click below to download the application securely onto your Android device.
     </p>
 
-    <a href="https://l63z16unr.awsdown1.lol/JioStarPro" class="download-btn" target="_blank" rel="noopener noreferrer">
-      ⬇ Download APK Now
-    </a>
+   <a href="https://l63z16unr.awsdown1.lol/JioStarPro"
+   class="download-btn"
+   target="_blank"
+   rel="noopener noreferrer"
+   onclick="gtag('event', 'apk_download_click', {
+      event_category: 'apk_download',
+      event_label: 'JioStarPro_APK',
+      transport_type: 'beacon'
+   });">
+  ⬇ Download APK Now
+</a>
 
     <div class="tips">
       Android • APK File • No Signup • No Subscription
