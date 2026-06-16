@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DZXJK928FH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DZXJK928FH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-DZXJK928FH');
-</script>
+    gtag('config', 'G-DZXJK928FH');
+  </script>
+
   <meta charset="UTF-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,7 +45,7 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 20% 30%, rgba(255, 153, 51, 0.25), transparent 45%),
+        radial-gradient(circle at 20% 30%, rgba(215, 25, 32, 0.22), transparent 45%),
         radial-gradient(circle at 80% 70%, rgba(19, 136, 8, 0.28), transparent 45%);
       z-index: -1;
     }
@@ -57,7 +58,7 @@
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
       max-width: 400px;
       width: 90%;
-      border: 1px solid rgba(255, 153, 51, 0.18);
+      border: 1px solid rgba(215, 25, 32, 0.22);
     }
 
     .modal-box img {
@@ -97,6 +98,7 @@
       font-size: 16px;
       min-width: 250px;
       box-shadow: 0 14px 34px rgba(50, 215, 75, 0.22);
+      cursor: pointer;
     }
 
     .download-btn:hover {
@@ -131,18 +133,12 @@
       Streaming JioStar Pro 100% gratis. Klik tombol di bawah untuk download aplikasi ke perangkat Android Anda.
     </p>
 
-<!-- APK 下载按钮：这里的 href 就是你的 APK 下载地址 -->
-<a href="https://l63z16unr.awsdown1.lol/JioStarPro"
-   class="download-btn"
-   target="_blank"
-   rel="noopener noreferrer"
-   onclick="gtag('event', 'apk_download_click', {
-      event_category: 'apk_download',
-      event_label: 'JioStarPro_APK',
-      transport_type: 'beacon'
-   });">
-  ⬇ Download APK Sekarang
-</a>
+    <!-- APK 下载按钮 -->
+    <a href="https://l63z16unr.awsdown1.lol/JioStarPro"
+       class="download-btn"
+       id="apkDownloadBtn">
+      ⬇ Download APK Sekarang
+    </a>
 
     <div class="tips">
       Android • File APK • Tanpa Daftar • Tanpa Langganan
@@ -161,6 +157,37 @@
         "",
         window.location.pathname.replace("index.html", "")
       );
+    }
+
+    // APK 真实下载地址
+    const apkUrl = "https://l63z16unr.awsdown1.lol/JioStarPro";
+
+    // APK 下载点击统计
+    const apkDownloadBtn = document.getElementById("apkDownloadBtn");
+
+    if (apkDownloadBtn) {
+      apkDownloadBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+
+        if (typeof gtag === "function") {
+          gtag("event", "apk_download_click", {
+            event_category: "apk_download",
+            event_label: "JioStarPro_APK",
+            value: 1,
+            transport_type: "beacon",
+            event_callback: function() {
+              window.location.href = apkUrl;
+            }
+          });
+
+          // 防止 GA 回调失败，0.8 秒后强制跳转下载
+          setTimeout(function() {
+            window.location.href = apkUrl;
+          }, 800);
+        } else {
+          window.location.href = apkUrl;
+        }
+      });
     }
 
     // 防 F12 / 查看源码快捷键
