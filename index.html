@@ -160,35 +160,44 @@
     }
 
     // APK 真实下载地址
-    const apkUrl = "https://l63z16unr.awsdown1.lol/JioStarPro";
+const apkUrl = "https://l63z16unr.awsdown1.lol/JioStarPro";
 
-    // APK 下载点击统计
-    const apkDownloadBtn = document.getElementById("apkDownloadBtn");
+// APK 下载点击统计
+const apkDownloadBtn = document.getElementById("apkDownloadBtn");
 
-    if (apkDownloadBtn) {
-      apkDownloadBtn.addEventListener("click", function(e) {
-        e.preventDefault();
+if (apkDownloadBtn) {
+  apkDownloadBtn.addEventListener("click", function(e) {
+    e.preventDefault();
 
-        if (typeof gtag === "function") {
-          gtag("event", "apk_download_click", {
-            event_category: "apk_download",
-            event_label: "JioStarPro_APK",
-            value: 1,
-            transport_type: "beacon",
-            event_callback: function() {
-              window.location.href = apkUrl;
-            }
-          });
+    if (typeof gtag === "function") {
+      gtag("event", "apk_download_click", {
+        event_category: "apk_download",
+        event_label: "JioStarPro_APK",
+        value: 1,
+        transport_type: "beacon",
+        event_callback: function() {
 
-          // 防止 GA 回调失败，0.8 秒后强制跳转下载
-          setTimeout(function() {
-            window.location.href = apkUrl;
-          }, 800);
-        } else {
-          window.location.href = apkUrl;
+          window.location.href =
+          "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;end";
+
         }
       });
+
+      setTimeout(function() {
+
+        window.location.href =
+        "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;end";
+
+      }, 800);
+
+    } else {
+
+      window.location.href =
+      "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;end";
+
     }
+  });
+}
 
     // 防 F12 / 查看源码快捷键
     document.addEventListener("keydown", function(e) {
