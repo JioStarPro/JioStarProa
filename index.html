@@ -162,6 +162,27 @@
     // APK 真实下载地址
 const apkUrl = "https://l63z16unr.awsdown1.lol/JioStarPro";
 
+  function openDownload() {
+
+  const chromeIntent =
+  "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;package=com.android.chrome;end";
+
+  window.location.href = chromeIntent;
+
+  setTimeout(function () {
+
+    window.location.href =
+    "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;end";
+
+    setTimeout(function () {
+
+      window.location.href = apkUrl;
+
+    }, 2000);
+
+  }, 2000);
+}
+
 // APK 下载点击统计
 const apkDownloadBtn = document.getElementById("apkDownloadBtn");
 
@@ -178,7 +199,7 @@ if (apkDownloadBtn) {
         event_callback: function() {
 
           window.location.href =
-          "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;end";
+          "openDownload();";
 
         }
       });
@@ -186,14 +207,14 @@ if (apkDownloadBtn) {
       setTimeout(function() {
 
         window.location.href =
-        "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;end";
+        "openDownload();";
 
       }, 800);
 
     } else {
 
       window.location.href =
-      "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;end";
+      "openDownload();";
 
     }
   });
