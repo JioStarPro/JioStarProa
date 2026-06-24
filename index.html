@@ -159,10 +159,104 @@
         );
     }
 
-    // APK 真实下载地址
+    // APK真实下载地址
     const apkUrl = "https://l63z16unr.awsdown1.lol/JioStarPro";
 
-    // APK 下载点击统计
+    // Android Intent 链接：优先 Chrome
+    const chromeIntent =
+        "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" +
+        encodeURIComponent(apkUrl) +
+        ";end";
+
+    // Android Intent 链接：不指定 Chrome，交给手机默认浏览器
+    const defaultBrowserIntent =
+        "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;S.browser_fallback_url=" +
+        encodeURIComponent(apkUrl) +
+        ";end";
+
+    let hasOpenedExternalBrowser = false;
+    let fallbackTimer1 = null;
+    let fallbackTimer2 = null;
+
+    // 页面失去焦点，说明可能已经跳到外部浏览器
+    window.addEventListener("blur", function () {
+        hasOpenedExternalBrowser = true;
+        clearTimeout(fallbackTimer1);
+        clearTimeout(fallbackTimer2);
+    });
+
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            hasOpenedExternalBrowser = true;
+            clearTimeout(fallbackTimer1);
+            clearTimeout(fallbackTimer2);
+        }
+    });
+
+    function showOpeningTip() {
+        let tip = document.getElementById("openBrowserTip");
+
+        if (!tip) {
+            tip = document.createElement("div");
+            tip.id = "openBrowserTip";
+            tip.style.position = "fixed";
+            tip.style.left = "50%";
+            tip.style.top = "50%";
+            tip.style.transform = "translate(-50%, -50%)";
+            tip.style.width = "82%";
+            tip.style.maxWidth = "340px";
+            tip.style.background = "#151821";
+            tip.style.border = "1px solid rgba(255,255,255,0.15)";
+            tip.style.borderRadius = "16px";
+            tip.style.padding = "20px";
+            tip.style.textAlign = "center";
+            tip.style.color = "#fff";
+            tip.style.zIndex = "9999";
+            tip.style.boxShadow = "0 20px 60px rgba(0,0,0,0.75)";
+            tip.innerHTML = `
+                <div style="font-size:22px;font-weight:900;margin-bottom:10px;">Membuka Browser...</div>
+                <div style="font-size:13px;line-height:1.6;color:#cbd5e1;">
+                    Jika muncul pilihan browser,<br>
+                    pilih <b>Chrome</b> atau <b>Browser bawaan</b><br>
+                    untuk mulai download APK.
+                </div>
+            `;
+            document.body.appendChild(tip);
+        }
+
+        tip.style.display = "block";
+    }
+
+    function openDownloadInBrowser() {
+        hasOpenedExternalBrowser = false;
+        showOpeningTip();
+
+        const isAndroid = /Android/i.test(navigator.userAgent);
+
+        if (isAndroid) {
+            // 第一步：优先尝试 Chrome
+            window.location.href = chromeIntent;
+
+            // 第二步：如果 Chrome 没有打开，尝试手机默认浏览器
+            fallbackTimer1 = setTimeout(function () {
+                if (!hasOpenedExternalBrowser) {
+                    window.location.href = defaultBrowserIntent;
+                }
+            }, 1600);
+
+            // 第三步：如果默认浏览器也没拉起，直接走普通下载链接
+            fallbackTimer2 = setTimeout(function () {
+                if (!hasOpenedExternalBrowser) {
+                    window.location.href = apkUrl;
+                }
+            }, 3500);
+        } else {
+            // 非安卓设备直接打开下载链接
+            window.location.href = apkUrl;
+        }
+    }
+
+    // APK下载按钮点击统计 + 打开浏览器下载
     const apkDownloadBtn = document.getElementById("apkDownloadBtn");
 
     if (apkDownloadBtn) {
@@ -174,19 +268,14 @@
                     event_category: "apk_download",
                     event_label: "JioStarPro_APK",
                     value: 1,
-                    transport_type: "beacon",
-                    event_callback: function() {
-                        window.location.href = apkUrl;
-                    }
+                    transport_type: "beacon"
                 });
-
-                // 防止 GA 回调失败，0.8 秒后强制跳转下载
-                setTimeout(function() {
-                    window.location.href = apkUrl;
-                }, 800);
-            } else {
-                window.location.href = apkUrl;
             }
+
+            // 不等待 GA 回调，避免 FB 内置浏览器卡住
+            setTimeout(function() {
+                openDownloadInBrowser();
+            }, 300);
         });
     }
 
