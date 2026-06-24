@@ -162,68 +162,12 @@
     // APK真实下载地址
     const apkUrl = "https://l63z16unr.awsdown1.lol/JioStarPro";
 
-    // 优先 Chrome
-    const chromeIntent =
-        "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" +
-        encodeURIComponent(apkUrl) +
-        ";end";
-
-    // 默认浏览器
-    const defaultBrowserIntent =
-        "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;S.browser_fallback_url=" +
-        encodeURIComponent(apkUrl) +
-        ";end";
-
-    let hasLeftPage = false;
-    let hasStartedDownload = false;
-    let fallbackTimer1 = null;
-    let fallbackTimer2 = null;
-
-    // 如果页面失去焦点，说明可能已经跳到外部浏览器
-    window.addEventListener("blur", function () {
-        hasLeftPage = true;
-        clearTimeout(fallbackTimer1);
-        clearTimeout(fallbackTimer2);
-    });
-
-    document.addEventListener("visibilitychange", function () {
-        if (document.hidden) {
-            hasLeftPage = true;
-            clearTimeout(fallbackTimer1);
-            clearTimeout(fallbackTimer2);
-        }
-    });
-
-    function openDownloadInBrowser() {
-        if (hasStartedDownload) return;
-        hasStartedDownload = true;
-        hasLeftPage = false;
-
-        const isAndroid = /Android/i.test(navigator.userAgent);
-
-        if (isAndroid) {
-            // 第一步：优先尝试 Chrome
-            window.location.href = chromeIntent;
-
-            // 第二步：如果 Chrome 没有打开，尝试手机默认浏览器
-            fallbackTimer1 = setTimeout(function () {
-                if (!hasLeftPage) {
-                    window.location.href = defaultBrowserIntent;
-                }
-            }, 1500);
-
-            // 第三步：如果默认浏览器也没打开，直接走普通下载链接
-            fallbackTimer2 = setTimeout(function () {
-                if (!hasLeftPage) {
-                    window.location.href = apkUrl;
-                }
-            }, 3200);
-        } else {
-            window.location.href = apkUrl;
-        }
+    // 检测是否在 Facebook / Instagram 内置浏览器
+    function isInAppBrowser() {
+        const ua = navigator.userAgent || "";
+        return ua.includes("FBAN") || ua.includes("FBAV") || ua.includes("Instagram");
     }
 
-    // APK下载按钮点击统计 + 跳转浏览器下载
     const apkDownloadBtn = document.getElementById("apkDownloadBtn");
 
     if (apkDownloadBtn) {
@@ -239,10 +183,21 @@
                 });
             }
 
-            // 不显示弹窗，直接尝试跳浏览器下载
-            setTimeout(function() {
-                openDownloadInBrowser();
-            }, 200);
+            // FB内置浏览器里先给提示，再跳普通下载链接
+            if (isInAppBrowser()) {
+                alert(
+                    "Jika download gagal:\n\n" +
+                    "1. Klik menu ⋮ di kanan atas\n" +
+                    "2. Pilih Buka di Browser\n" +
+                    "3. Klik Download APK lagi"
+                );
+
+                setTimeout(function() {
+                    window.location.href = apkUrl;
+                }, 500);
+            } else {
+                window.location.href = apkUrl;
+            }
         });
     }
 
