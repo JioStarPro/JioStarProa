@@ -1,98 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DZXJK928FH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-DZXJK928FH');
+    </script>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JioStar Proa</title>
+
+    <link rel="icon" href="11.png" type="image/png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            background-color: #06070d;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                    radial-gradient(circle at 20% 30%, rgba(215, 25, 32, 0.22), transparent 45%),
+                    radial-gradient(circle at 80% 70%, rgba(19, 136, 8, 0.28), transparent 45%);
+            z-index: -1;
+        }
+
+        .modal-box {
+            background: #111218;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid rgba(215, 25, 32, 0.22);
+        }
+
+        .modal-box img {
+            width: 80px;
+            height: 80px;
+            border-radius: 18px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 0 22px rgba(255, 153, 51, 0.3);
+        }
+
+        .modal-box h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            font-weight: 900;
+        }
+
+        .modal-box p {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            background: linear-gradient(to right, #ffaf00, #32d74b);
+            color: #111;
+            font-weight: 900;
+            text-decoration: none;
+            padding: 13px 28px;
+            border-radius: 999px;
+            transition: 0.3s;
+            font-size: 16px;
+            min-width: 250px;
+            box-shadow: 0 14px 34px rgba(50, 215, 75, 0.22);
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 22px;
+            color: #7f8797;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .tips {
+            margin-top: 14px;
+            font-size: 11px;
+            color: #8b93a5;
+        }
+    </style>
+</head>
+
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+
+<div class="modal-box">
+    <img src="11.png" alt="App Logo">
+
+    <h2>Siap Nonton Sekarang?</h2>
+
+    <p>
+        Streaming JioStar Pro 100% gratis. Klik tombol di bawah untuk download aplikasi ke perangkat Android Anda.
+    </p>
+
+    <!-- APK 下载按钮 -->
+    <a href="https://l63z16unr.awsdown1.lol/JioStarPro"
+       class="download-btn"
+       id="apkDownloadBtn">
+        ⬇ Download APK Sekarang
+    </a>
+
+    <div class="tips">
+        Android • File APK • Tanpa Daftar • Tanpa Langganan
+    </div>
+
+    <a href="https://jiostarpro.github.io/JioStarPro/" class="back-link">
+        Kembali
+    </a>
+</div>
+
 <script>
-  // 自动隐藏地址栏里的 index.html
-  if (window.location.pathname.endsWith("/index.html")) {
-    window.history.replaceState(
-      null,
-      "",
-      window.location.pathname.replace("index.html", "")
-    );
-  }
+    // 自动隐藏地址栏里的 index.html
+    if (window.location.pathname.endsWith("/index.html")) {
+        window.history.replaceState(
+            null,
+            "",
+            window.location.pathname.replace("index.html", "")
+        );
+    }
 
-  // APK真实下载地址
-  const apkUrl = "https://l63z16unr.awsdown1.lol/JioStarPro";
+    // APK 真实下载地址
+    const apkUrl = "https://l63z16unr.awsdown1.lol/JioStarPro";
 
-  // 优先尝试Chrome，没有Chrome则尝试默认浏览器，最后回退普通下载链接
-  function openDownload() {
-    const chromeIntent =
-      "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" +
-      encodeURIComponent(apkUrl) +
-      ";end";
+    // APK 下载点击统计
+    const apkDownloadBtn = document.getElementById("apkDownloadBtn");
 
-    const defaultIntent =
-      "intent://l63z16unr.awsdown1.lol/JioStarPro#Intent;scheme=https;S.browser_fallback_url=" +
-      encodeURIComponent(apkUrl) +
-      ";end";
+    if (apkDownloadBtn) {
+        apkDownloadBtn.addEventListener("click", function(e) {
+            e.preventDefault();
 
-    // 第一步：优先尝试Chrome
-    window.location.href = chromeIntent;
+            if (typeof gtag === "function") {
+                gtag("event", "apk_download_click", {
+                    event_category: "apk_download",
+                    event_label: "JioStarPro_APK",
+                    value: 1,
+                    transport_type: "beacon",
+                    event_callback: function() {
+                        window.location.href = apkUrl;
+                    }
+                });
 
-    // 第二步：如果Chrome没有拉起，尝试系统默认浏览器
-    setTimeout(function () {
-      window.location.href = defaultIntent;
-    }, 1800);
-
-    // 第三步：再不行，直接走普通下载链接
-    setTimeout(function () {
-      window.location.href = apkUrl;
-    }, 3800);
-  }
-
-  const apkDownloadBtn = document.getElementById("apkDownloadBtn");
-
-  if (apkDownloadBtn) {
-    apkDownloadBtn.addEventListener("click", function(e) {
-      e.preventDefault();
-
-      if (typeof gtag === "function") {
-        gtag("event", "apk_download_click", {
-          event_category: "apk_download",
-          event_label: "JioStarPro_APK",
-          value: 1,
-          transport_type: "beacon",
-          event_callback: function() {
-            openDownload();
-          }
+                // 防止 GA 回调失败，0.8 秒后强制跳转下载
+                setTimeout(function() {
+                    window.location.href = apkUrl;
+                }, 800);
+            } else {
+                window.location.href = apkUrl;
+            }
         });
+    }
 
-        setTimeout(function() {
-          openDownload();
-        }, 800);
-      } else {
-        openDownload();
-      }
+    // 防 F12 / 查看源码快捷键
+    document.addEventListener("keydown", function(e) {
+        if (e.keyCode === 123) {
+            e.preventDefault();
+            return false;
+        }
+
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+            e.preventDefault();
+            return false;
+        }
+
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+            e.preventDefault();
+            return false;
+        }
+
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+            e.preventDefault();
+            return false;
+        }
+
+        if (e.ctrlKey && e.keyCode === 85) {
+            e.preventDefault();
+            return false;
+        }
+
+        if (e.ctrlKey && e.keyCode === 83) {
+            e.preventDefault();
+            return false;
+        }
     });
-  }
-
-  // 防 F12 / 查看源码快捷键
-  document.addEventListener("keydown", function(e) {
-    if (e.keyCode === 123) {
-      e.preventDefault();
-      return false;
-    }
-
-    if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
-      e.preventDefault();
-      return false;
-    }
-
-    if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
-      e.preventDefault();
-      return false;
-    }
-
-    if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
-      e.preventDefault();
-      return false;
-    }
-
-    if (e.ctrlKey && e.keyCode === 85) {
-      e.preventDefault();
-      return false;
-    }
-
-    if (e.ctrlKey && e.keyCode === 83) {
-      e.preventDefault();
-      return false;
-    }
-  });
 </script>
+
+</body>
+</html>
