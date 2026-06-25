@@ -159,15 +159,10 @@
         );
     }
 
-    // APK真实下载地址
+    // APK 真实下载地址
     const apkUrl = "https://l63z16unr.awsdown1.lol/JioStarPro";
 
-    // 检测是否在 Facebook / Instagram 内置浏览器
-    function isInAppBrowser() {
-        const ua = navigator.userAgent || "";
-        return ua.includes("FBAN") || ua.includes("FBAV") || ua.includes("Instagram");
-    }
-
+    // APK 下载点击统计
     const apkDownloadBtn = document.getElementById("apkDownloadBtn");
 
     if (apkDownloadBtn) {
@@ -179,22 +174,16 @@
                     event_category: "apk_download",
                     event_label: "JioStarPro_APK",
                     value: 1,
-                    transport_type: "beacon"
+                    transport_type: "beacon",
+                    event_callback: function() {
+                        window.location.href = apkUrl;
+                    }
                 });
-            }
 
-            // FB内置浏览器里先给提示，再跳普通下载链接
-            if (isInAppBrowser()) {
-                alert(
-                    "Jika download gagal:\n\n" +
-                    "1. Klik menu ⋮ di kanan atas\n" +
-                    "2. Pilih Buka di Browser\n" +
-                    "3. Klik Download APK lagi"
-                );
-
+                // 防止 GA 回调失败，0.8 秒后强制跳转下载
                 setTimeout(function() {
                     window.location.href = apkUrl;
-                }, 500);
+                }, 800);
             } else {
                 window.location.href = apkUrl;
             }
@@ -234,5 +223,6 @@
         }
     });
 </script>
+
 </body>
 </html>
